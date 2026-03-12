@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de tareas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <script src="./js/app.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+</head>
+
+<body class=" bg-blue-800">
+
+    <section class="bg-gray-800 mx-auto p-6 rounded-lg shadow-md w-[70%] mt-4">
+
+        <h1 class="text-center font-bold text-white p-2 text-3xl">Lista de tareas</h1>
+
+        <hr class="w-full text-white p-3">
+
+        <div class="flex gap-2 mb-4">
+            <input id="nueva-tarea" type="text" placeholder="Nueva tarea..."
+                class="flex-1 rounded px-2 py-2 border-2 hover:bg-gray-200 focus:border-blue-500 focus:border-2 focus:outline-none">
+            <button id="btn-guardar" class="bg-blue-500 hover:bg-blue-700 text-white px-4 rounded font-semibold">
+                <i class="fa-solid fa-square-plus"></i>
+                Agregar
+            </button>
+        </div>
+
+        <hr class="w-full text-white p-3">
+        <ul id="listado-tareas" class="space-y-2">
+
+
+        </ul>
+
+        <button id="btnEliminarTodo" class="bg-red-700 hover:bg-red-900 mt-4 text-white p-2 rounded-lg w-full"><i
+                class="fa-solid fa-eraser"></i> Limpiar Todo</button>
+
+    </section>
+
+</body>
+
+</html>
