@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de tareas</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <script src="./js/probar.js" type="module"></script>
+
+</head>
+
+<body class=" bg-purple-800">
+
+    <section class="bg-gray-900 mx-auto p-6 rounded-2xl shadow-2xl w-[350px] mt-10">
+        <div class="flex flex-col gap-3 mb-6">
+            <a href="./index.html"
+                        class="bg-blue-500 hover:bg-blue-700 p-3 text-white rounded font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Ir a Lista de tareas 
+                    </a>
+            <input id="valortotal" type="number" placeholder="Valor bruto..."
+                class="text-xl text-right rounded-xl px-4 py-3 border-2 border-gray-700 bg-gray-800 text-white focus:border-blue-500 focus:outline-none shadow-inner">
+            <input id="descuento" type="number" placeholder="Descuento (%)"
+                class="text-xl text-right rounded-xl px-4 py-3 border-2 border-gray-700 bg-gray-800 text-white focus:border-blue-500 focus:outline-none shadow-inner">
+        </div>
+
+        <button id="btn-calcular"
+            class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl text-lg font-bold shadow-lg transition duration-200">
+            <i class="fa-solid fa-calculator mr-2"></i> Calcular
+        </button>
+
+        <div class="mt-6 bg-gray-800 rounded-xl p-4 shadow-inner">
+            <p class="text-2xl text-green-400 font-extrabold text-center" id="resultado">₲0</p>
+        </div>
+    </section>
+
+</body>
+
+</html>
