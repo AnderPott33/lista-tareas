@@ -1,9 +1,8 @@
-import { guardar, recuperar, limpiarTodo } from "./auxiliar.js";
+import { guardar, miAlert, recuperar, limpiarTodo } from "./auxiliar.js";
 
 const btnGuardar = document.querySelector("#btn-guardar");
 const nuevaTarea = document.querySelector("#nueva-tarea");
 const listadoTareas = document.querySelector("#listado-tareas");
-const btnEliminar = document.querySelectorAll("[data-name='btnEliminar']");
 const btnEliminarTodo = document.querySelector("#btnEliminarTodo");
 
 
@@ -26,21 +25,47 @@ let historicoTareas = JSON.parse(recuperar("tareas")) ?? [];
         guardarTarea();
         }); */
 
-btnGuardar.addEventListener('click', function () {
-    const textTarea = nuevaTarea.value;
+btnGuardar.addEventListener("click", function () {
+
+    if (!nuevaTarea.value.trim()) {
+
+        Swal.fire({
+            title: "Agregue contenido en la tarea!",
+            theme: "dark",
+            icon: "info",
+            showConfirmButton: false,
+            timer: 1500
+        });
+
+        return;
+    }
+
+    const textTarea = nuevaTarea.value.trim();
+
     historicoTareas.push(textTarea);
-    const nuevaLinea =
-        `
-            <li class="flex justify-between mb-2 bg-gray-100 p-2 rounded">
-            <span class="font-mono text-inherit">${textTarea}</span>
-            <button data-name="btnEliminar" class="bg-red-500 hover:bg-red-700 text-white px-2 rounded"><i
-            class="fa-solid fa-trash"></i></button>
-            </li>
-            `;
+
+    const nuevaLinea = `
+        <li class="flex justify-between mb-2 bg-gray-100 p-2 rounded">
+            <span class="font-mono">${textTarea}</span>
+            <button data-name="btnEliminar" class="bg-red-500 hover:bg-red-700 text-white px-2 rounded">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </li>
+    `;
+
     listadoTareas.insertAdjacentHTML("beforeend", nuevaLinea);
+
     nuevaTarea.value = "";
 
+    miAlert({
+        titulo: "Tarea guardada",
+        tipo: "success",
+        texto: "La tarea se agregó correctamente",
+        tiempo: 3000
+    });
+
     guardar("tareas", JSON.stringify(historicoTareas));
+
 });
 
 function recuperarTodo() {
@@ -91,16 +116,42 @@ btnEliminarTodo.addEventListener("click", () => {
 });
 
 listadoTareas.addEventListener("click", function (e) {
+
     if (e.target.closest("[data-name='btnEliminar']")) {
         const texto = e.target.closest("li").querySelector("span").textContent;
-        e.target.closest("li").remove();
+        /* e.target.closest("li").remove(); */
         historicoTareas = historicoTareas.filter(
             function (tarea) {
                 return tarea != texto
             }
         );
-        /* limpiarTodo(historicoTareas); */
-        guardar("tareas", JSON.stringify(historicoTareas));
 
+        Swal.fire({
+            title: `Desea eliminar la tarea: ${texto}?`,
+            theme: "dark",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Borrar",
+            denyButtonText: `No borrar`
+        }).then((respuesta) => {
+            const [titulo, icono] = respuesta.isConfirmed
+                ? ["Tarea eliminada", "success"]
+                : respuesta.isDenied
+                    ? ["Tarea no eliminada", "info"]
+                    : [null, null];
+
+            if (titulo) {
+                if (respuesta.isConfirmed) e.target.closest("li").remove();
+                if (respuesta.isConfirmed) guardar("tareas", JSON.stringify(historicoTareas));
+
+                Swal.fire({
+                    title: titulo,
+                    theme: "dark",
+                    icon: icono,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        })
     }
 });
